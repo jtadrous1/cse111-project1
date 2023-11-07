@@ -1,8 +1,8 @@
 -- Create the Company Entity table
 CREATE TABLE Company (
     CompanyID INTEGER PRIMARY KEY,
-    CompanyName TEXT NOT NULL,
-    StockSymbol TEXT NOT NULL,
+    CompanyName TEXT,
+    StockSymbol TEXT,
     CompanyLocation TEXT,
     Industry TEXT,
     Sector TEXT,
@@ -34,7 +34,9 @@ CREATE TABLE News (
     Name TEXT,
     Source TEXT,
     Publisher TEXT,
-    Thumbnail BLOB
+    Thumbnail BLOB,
+    StockSymbol TEXT,
+    RelatedStocks TEXT
 );
 
 -- Create the Stock Index Entity table
@@ -45,8 +47,8 @@ CREATE TABLE StockIndex (
 
 -- Create the Stock to News (many-to-many) relationship table
 CREATE TABLE StockToNews (
-    StockSymbol TEXT,
     NewsID INTEGER,
+    StockSymbol TEXT,
     FOREIGN KEY (StockSymbol) REFERENCES Stock(StockSymbol),
     FOREIGN KEY (NewsID) REFERENCES News(NewsID),
     PRIMARY KEY (StockSymbol, NewsID)
@@ -54,8 +56,8 @@ CREATE TABLE StockToNews (
 
 -- Create the Stock to Index (many-to-many) relationship table
 CREATE TABLE StockToIndex (
-    StockSymbol TEXT,
     IndexID INTEGER,
+    StockSymbol TEXT,
     FOREIGN KEY (StockSymbol) REFERENCES Stock(StockSymbol),
     FOREIGN KEY (IndexID) REFERENCES StockIndex(IndexID),
     PRIMARY KEY (StockSymbol, IndexID)
@@ -63,16 +65,16 @@ CREATE TABLE StockToIndex (
 
 -- Create the Institutional Holders Entity table
 CREATE TABLE InstitutionalHolders (
-    Holder TEXT PRIMARY KEY,
-    Shares INTEGER,
-    Value INTEGER,
-    DateReported DATE
+    Holder TEXT PRIMARY KEY
 );
 
 -- Create the Stock to Institutional Holders (many-to-many) relationship table
 CREATE TABLE StockToInstitutionalHolders (
+    Date DATE,
     StockSymbol TEXT,
     Holder TEXT,
+    Shares INTEGER,
+    Value INTEGER,
     FOREIGN KEY (StockSymbol) REFERENCES Stock(StockSymbol),
     FOREIGN KEY (Holder) REFERENCES InstitutionalHolders(Holder),
     PRIMARY KEY (StockSymbol, Holder)
@@ -81,8 +83,9 @@ CREATE TABLE StockToInstitutionalHolders (
 -- Create the StockPrices table with a foreign key reference to Stock
 CREATE TABLE StockPrices (
     Date DATE NOT NULL,
-    Ticker TEXT NOT NULL,
+    StockSymbol TEXT NOT NULL,
     Price DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (Ticker) REFERENCES Stock(StockSymbol), -- Assuming CompanyName corresponds to Ticker
-    PRIMARY KEY (Date, Ticker)
+    Volume INTEGER NOT NULL,
+    FOREIGN KEY (StockSymbol) REFERENCES Stock(StockSymbol), -- Assuming CompanyName corresponds to StockSymbol
+    PRIMARY KEY (Date, StockSymbol)
 );
