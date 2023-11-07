@@ -60,3 +60,78 @@ WHERE
     stih.Holder LIKE 'Vanguard%'
     AND 
     Shares > 100000000;
+
+-- Query 11
+-- get stock price between 2020 and 2021 when price over $100
+SELECT * FROM StockPrices
+WHERE 
+    StockPrices.Date < "2022%"
+    AND
+    StockPrices.Date >= "2020%"
+    AND
+    StockPrices.Price > 100;
+
+-- Query 12
+-- gets the companies being held in vanguard and in the Dow
+SELECT DISTINCT Company.CompanyName, StockIndex.IndexName FROM Stock
+JOIN Company on Company.StockSymbol = Stock.StockSymbol
+JOIN StockToInstitutionalHolders as stih ON stih.StockSymbol = Stock.StockSymbol
+JOIN StockToIndex ON StockToIndex.StockSymbol = Stock.StockSymbol
+JOIN StockIndex ON StockIndex.IndexID = StockToIndex.IndexID
+WHERE
+    stih.Holder LIKE "Vanguard%"
+    AND
+    StockIndex.IndexName LIKE "Dow%";
+
+-- Query 13
+-- get the stocks that are in more than 1 index
+SELECT Stock.StockSymbol, Company.CompanyName
+FROM Stock
+JOIN Company ON Stock.StockSymbol = Company.StockSymbol
+JOIN StockToIndex ON Stock.StockSymbol = StockToIndex.StockSymbol
+GROUP BY Stock.StockSymbol, Company.CompanyName
+HAVING COUNT(StockToIndex.IndexID) > 1;
+
+-- Query 14
+-- gets the average value held by all holders of a stock
+SELECT StockSymbol, AVG(Value) AS AverageValue
+FROM StockToInstitutionalHolders
+GROUP BY StockSymbol;
+
+-- Query 15
+-- gets the max value held by all holders of a stock
+SELECT StockSymbol, MAX(Value) AS AverageValue
+FROM StockToInstitutionalHolders
+GROUP BY StockSymbol;
+
+-- Query 16
+-- counts the news articles written for a stock
+SELECT StockSymbol, COUNT(NewsID) FROM News
+GROUP BY StockSymbol;
+
+-- Query 17
+-- counts how many of a stock contain AAPL
+SELECT COUNT(*)
+FROM News
+WHERE RelatedStocks LIKE '%AAPL%';
+
+-- Query 18
+-- gets the date where volume over 1B
+SELECT Date FROM StockPrices
+WHERE Volume > 1000000000;
+
+-- Query 19
+-- gets the stocks where div yield > 0, in tech, and in the US
+SELECT Stock.StockSymbol, Stock.DividendYield FROM Stock
+JOIN Company ON Company.StockSymbol = Stock.StockSymbol
+WHERE 
+    Stock.DividendYield > 0
+    AND
+    Company.CompanyLocation LIKE ("%United States%")
+    AND
+    Company.Sector = "Technology";
+
+-- Query 20
+-- gets the number of ceos that are dr.
+SELECT COUNT(*) FROM Company
+WHERE Company.CEO LIKE "%Dr.%"
