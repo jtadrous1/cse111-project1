@@ -2,8 +2,11 @@ from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///company.db'  # Replace with your database URL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///company.sqlite'  # Replace with your database URL
 db = SQLAlchemy(app)
+
+with app.app_context():
+    db.create_all()
 
 # Add this line to display the database URI
 print("Database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
