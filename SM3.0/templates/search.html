@@ -95,7 +95,6 @@
         <div id="loader" class="loader"></div>
     </form>
 
-
     <h2>Search Results</h2>
     <ul>
         {% if company_results %}
@@ -111,18 +110,34 @@
         {% else %}
             <li>No company results found.</li>
         {% endif %}
-        <ul>
-            {% if stock_results %}
-                {% for stock in stock_results %}
-                    <li>
-                        <strong>Current Price:</strong> {{ stock.CurrentPrice }}<br>
-                        <strong>Dividend Yield:</strong> {{ stock.DividendYield }}<br>
-                    </li>
-                {% endfor %}
-            {% else %}
-                <li>No stock results found.</li>
-            {% endif %}
-        </ul>
+    </ul>
+    <ul>
+        {% if stock_results %}
+            {% for stock in stock_results %}
+                <li>
+                    <strong>Current Price:</strong> {{ stock.CurrentPrice }}<br>
+                    <strong>Dividend Yield:</strong> {{ stock.DividendYield }}<br>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>No stock results found.</li>
+        {% endif %}
+    </ul>
+
+    <h2>News</h2>
+    <ul>
+        {% if news_results %}
+            {% for news in news_results %}
+                <li>
+                    <strong>Name:</strong> {{ news.Name }}<br>
+                    <strong>Source:</strong> {{ news.Source }}<br>
+                    <strong>Publisher:</strong> {{ news.Publisher }}<br>
+                    <strong>Related Stocks:</strong> {{ news.RelatedStocks }}<br>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>No news results found.</li>
+        {% endif %}
     </ul>
 </body>
 </html>
