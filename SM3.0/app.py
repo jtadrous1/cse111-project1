@@ -1,16 +1,12 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///company.sqlite'  # Replace with your database URL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///company.sqlite'
 db = SQLAlchemy(app)
 
 with app.app_context():
     db.create_all()
-
-# Add this line to display the database URI
-print("Database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
-
 
 class Company(db.Model):
     __tablename__ = 'Company'
@@ -21,15 +17,17 @@ class Company(db.Model):
     Industry = db.Column(db.String(255))
     Sector = db.Column(db.String(255))
     CEO = db.Column(db.String(255))
+    CurrentPrice = db.Column(db.Float) 
+    DividendYield = db.Column(db.Float)  
+    Volume = db.Column(db.Integer)
 
 @app.route('/', methods=['GET', 'POST'])
 def search_company():
     if request.method == 'POST':
         search_query = request.form['search_query']
-        results = Company.query.filter(Company.CompanyName.ilike(f'%{search_query}%')).all()
-        print("Search Results:")
-        for result in results:
-            print(result)
+        results = Company.query.filter(Company.StockSymbol == search_query).all()
+        if not results:
+            flash("No results found for the given stock symbol.")
     else:
         results = []
 
@@ -37,4 +35,5 @@ def search_company():
 
 
 if __name__ == '__main__':
+    app.secret_key = '13ZC46AD79QR28XW'  # Set a secret key for flash messages
     app.run(debug=True)

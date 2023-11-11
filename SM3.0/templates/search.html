@@ -2,17 +2,117 @@
 <html>
 <head>
     <title>Company Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0074d9;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #0074d9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .loader {
+            display: none;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #0074d9;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h2 {
+            margin-top: 40px;
+            color: #0074d9;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        li:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+    <script>
+        function showLoadingSpinner() {
+            var spinner = document.getElementById('loader');
+            spinner.style.display = 'inline-block';
+        }
+    </script>
 </head>
 <body>
-    <h1>Search for a Company</h1>
-    <form method="post">
+    <h1>Stock Market Search Bar</h1>
+    <form method="post" onsubmit="showLoadingSpinner()">
         <input type="text" name="search_query" placeholder="Enter company name">
         <input type="submit" value="Search">
+        <div id="loader" class="loader"></div>
     </form>
     <h2>Search Results</h2>
     <ul>
         {% for result in results %}
-            <li>{{ result.CompanyName }} - {{ result.StockSymbol }} - {{ result.CompanyLocation }}</li>
+            <li>
+                <strong>Company ID:</strong> {{ result.CompanyID }}<br>
+                <strong>Company Name:</strong> {{ result.CompanyName }}<br>
+                <strong>Stock Symbol:</strong> {{ result.StockSymbol }}<br>
+                <strong>Location:</strong> {{ result.CompanyLocation }}<br>
+                <strong>Industry:</strong> {{ result.Industry }}<br>
+                <strong>Sector:</strong> {{ result.Sector }}<br>
+                <strong>CEO:</strong> {{ result.CEO }}
+            </li>
+        {% endfor %}
+        {% for result in results %}
+            <li>
+                <strong>Current Price:</strong> {{ result.CurrentPrice }}<br>
+                <strong>Dividend Yield</strong>: {{ result.DividendYield }}<br>
+                <strong>Volume:</strong> {{ result.Volume }}
+            </li>
         {% endfor %}
     </ul>
 </body>
