@@ -94,26 +94,35 @@
         <input type="submit" value="Search">
         <div id="loader" class="loader"></div>
     </form>
+
+
     <h2>Search Results</h2>
     <ul>
-        {% for result in results %}
+        {% if company_results %}
             <li>
-                <strong>Company ID:</strong> {{ result.CompanyID }}<br>
-                <strong>Company Name:</strong> {{ result.CompanyName }}<br>
-                <strong>Stock Symbol:</strong> {{ result.StockSymbol }}<br>
-                <strong>Location:</strong> {{ result.CompanyLocation }}<br>
-                <strong>Industry:</strong> {{ result.Industry }}<br>
-                <strong>Sector:</strong> {{ result.Sector }}<br>
-                <strong>CEO:</strong> {{ result.CEO }}
+                <strong>Company ID:</strong> {{ company_results.CompanyID }}<br>
+                <strong>Company Name:</strong> {{ company_results.CompanyName }}<br>
+                <strong>Stock Symbol:</strong> {{ company_results.StockSymbol }}<br>
+                <strong>Location:</strong> {{ company_results.CompanyLocation }}<br>
+                <strong>Industry:</strong> {{ company_results.Industry }}<br>
+                <strong>Sector:</strong> {{ company_results.Sector }}<br>
+                <strong>CEO:</strong> {{ company_results.CEO }}
             </li>
-        {% endfor %}
-        {% for result in results %}
-            <li>
-                <strong>Current Price:</strong> {{ result.CurrentPrice }}<br>
-                <strong>Dividend Yield</strong>: {{ result.DividendYield }}<br>
-                <strong>Volume:</strong> {{ result.Volume }}
-            </li>
-        {% endfor %}
+        {% else %}
+            <li>No company results found.</li>
+        {% endif %}
+        <ul>
+            {% if stock_results %}
+                {% for stock in stock_results %}
+                    <li>
+                        <strong>Current Price:</strong> {{ stock.CurrentPrice }}<br>
+                        <strong>Dividend Yield:</strong> {{ stock.DividendYield }}<br>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li>No stock results found.</li>
+            {% endif %}
+        </ul>
     </ul>
 </body>
 </html>

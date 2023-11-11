@@ -17,21 +17,29 @@ class Company(db.Model):
     Industry = db.Column(db.String(255))
     Sector = db.Column(db.String(255))
     CEO = db.Column(db.String(255))
-    CurrentPrice = db.Column(db.Float) 
-    DividendYield = db.Column(db.Float)  
-    Volume = db.Column(db.Integer)
+
+class Stock(db.Model):
+    __tablename__ = 'Stock'
+    StockSymbol = db.Column(db.String(20), primary_key=True)
+    CompanyName = db.Column(db.String(255))
+    CurrentPrice = db.Column(db.Float)
+    DividendYield = db.Column(db.Float)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def search_company():
     if request.method == 'POST':
         search_query = request.form['search_query']
-        results = Company.query.filter(Company.StockSymbol == search_query).all()
-        if not results:
+        company_results = db.session.query(Company).filter(Company.StockSymbol == search_query).first()
+        stock_results = db.session.query(Stock).filter(Stock.StockSymbol == search_query).all()
+
+        if company_results is None:
             flash("No results found for the given stock symbol.")
     else:
-        results = []
+        company_results = None
+        stock_results = None
 
-    return render_template('search.html', results=results)
+    return render_template('search.html', company_results=company_results, stock_results=stock_results)
 
 
 if __name__ == '__main__':
