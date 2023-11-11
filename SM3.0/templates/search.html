@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company Search</title>
+</head>
+<body>
+    <h1>Search for a Company</h1>
+    <form method="post">
+        <input type="text" name="search_query" placeholder="Enter company name">
+        <input type="submit" value="Search">
+    </form>
+    <h2>Search Results</h2>
+    <ul>
+        {% for result in results %}
+            <li>{{ result.CompanyName }} - {{ result.StockSymbol }} - {{ result.CompanyLocation }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
