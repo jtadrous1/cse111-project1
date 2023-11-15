@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company Information</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="center-content">
+        <h1>Company Information</h1>
+        <div id="result">
+            <div class="side-by-side">
+                <table>
+                    <tr>
+                        <td>Company Name</td>
+                        <td>{{ data.CompanyName }}</td>
+                    </tr>
+                    <tr>
+                        <td>Company Location</td>
+                        <td>{{ data.CompanyLocation }}</td>
+                    </tr>
+                    <tr>
+                        <td>Industry</td>
+                        <td>{{ data.Industry }}</td>
+                    </tr>
+                    <tr>
+                        <td>Sector</td>
+                        <td>{{ data.Sector }}</td>
+                    </tr>
+                    <tr>
+                        <td>CEO</td>
+                        <td>{{ data.CEO }}</td>
+                    </tr>
+                    <tr>
+                        <td>Exchange</td>
+                        <td>{{ data2.StockExchange }}</td>
+                    </tr>
+                </table>
+                <div>
+                    <img src="data:image/png;base64,{{ img_data }}" alt="Stock Price vs. Date">
+                    <table>
+                        <tr>
+                            <td>Stock Symbol: {{ data.StockSymbol }}</td>
+                        </tr>
+                        <tr>
+                            <td>Current Price: {{ data2.CurrentPrice }}</td>                    
+                        </tr>
+                        <tr>
+                            <td>Dividend Yield: {{ data2.DividendYield|round(4) }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <h1>News Information</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>News</th>
+                        <th>Publisher</th>
+                        <!-- Add more columns if needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for news_item in data3 %}
+                        <tr>
+                            <td><a href="{{ news_item.Source }}" target="_blank">{{ news_item.Name }}</a></td>
+                            <td>{{ news_item.Publisher }}</td>
+                            <!-- Add more columns if needed -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="/">Back to Search</a>
+        <br><br><br><br>
+    </div>
+</body>
+</html>
