@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Index</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Search</a></li>
+            <li><a href="/stock_exchange">Exchange</a></li>
+            <li><a href="/holder">Holder</a></li>
+            <li><a href="/stock_index">Index</a></li>
+            <li><a href="/analytics">Analytics</a></li>
+        </ul>
+    </nav>
+    <div class="center-content">
+        <h1>Indexes</h1>
+        <div class="grid-container">
+            {% for index in data %}
+                <div class="grid-item">
+                    <p>{{ index.IndexName }}</p>
+                    <a href="javascript:void(0);" class="view-stocks-link" data-index-id="{{ index.IndexID }}">View Stocks</a>
+                </div>
+            {% endfor %}
+        </div>
+    
+        <div id="stocks-container"></div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".view-stocks-link").click(function () {
+                var indexId = $(this).data("index-id");
+
+                // Use Ajax to fetch stocks for the selected index
+                $.ajax({
+                    url: "/get_stocks_in_index/" + indexId,
+                    method: "GET",
+                    success: function (data) {
+                        if (data.length > 0) {
+                            // Create HTML content for stocks
+                            var stocksHtml = '<ul>';
+                            for (var i = 0; i < data.length; i++) {
+                                stocksHtml += '<li style="height:20px;width:80px"><a href="/company_info/' + data[i].StockSymbol.toUpperCase() + '">' + data[i].StockSymbol + '</a></li>';
+                            }
+                            stocksHtml += '</ul>';
+                        } else {
+                            // Display a message when there are no stocks
+                            var stocksHtml = '<p>No stocks found for this index.</p>';
+                        }
+
+                        // Update the content of the stocks container
+                        $("#stocks-container").html(stocksHtml);
+                    },
+                    error: function () {
+                        alert("Error fetching stocks.");
+                    }
+                });
+            });
+        });
+    </script>
+
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

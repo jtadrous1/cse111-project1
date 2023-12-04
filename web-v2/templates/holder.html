@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Holders</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Search</a></li>
+            <li><a href="/stock_exchange">Exchange</a></li>
+            <li><a href="/holder">Holder</a></li>
+            <li><a href="/stock_index">Index</a></li>
+            <li><a href="/analytics">Analytics</a></li>
+        </ul>
+    </nav>
+    <div class="center-content">
+        <h1>Institutional Holders</h1>
+        <div class="grid-container">
+            {% for holder in data %}
+                <div class="grid-item">
+                    <p>{{ holder.Holder }}</p>
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="stocks-container"></div>
+    
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

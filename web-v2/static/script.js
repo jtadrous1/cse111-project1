@@ -11,7 +11,6 @@ form.addEventListener("submit", function (e) {
     window.location.href = `/company_info/${symbol}`;
 });
 
-
 // form.addEventListener("submit", function (e) {
 //     e.preventDefault();
 //     const symbolInput = document.getElementById("symbol");

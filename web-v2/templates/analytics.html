@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analytics</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Search</a></li>
+            <li><a href="/stock_exchange">Exchange</a></li>
+            <li><a href="/holder">Holder</a></li>
+            <li><a href="/stock_index">Index</a></li>
+            <li><a href="/analytics">Analytics</a></li>
+        </ul>
+    </nav>
+    <div class="center-content">
+        <h1>Analytics</h1>
+        <form id="analyticsForm">
+            <input type="text" id="symbol2" name="symbol2" placeholder="AAPL">
+            <!-- <button type="submit">Lookup</button> -->
+            <div>
+                {{ plot_html | safe }}
+                <p>Powered by <a href="https://facebook.github.io/prophet/">FBProphet</a></p>
+            </div>
+        </form>
+        {% if error %}
+        <p id="error">{{ error }}</p>
+        {% endif %}
+
+    </div>
+    <script>
+        const form = document.getElementById("analyticsForm");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const symbolInput = document.getElementById("symbol2");
+            const symbol = symbolInput.value.toUpperCase();
+
+            // Redirect to the analytics page for the specified symbol
+            window.location.href = `/analytics/${symbol}`;
+        });
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

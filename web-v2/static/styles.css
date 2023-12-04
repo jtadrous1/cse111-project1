@@ -118,3 +118,69 @@ nav a:hover {
     background-color: #ddd;
     color: black;
 }
+
+/* styles.css */
+#stocks-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#stocks-container li {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* styles.css */
+
+.center-content {
+    text-align: center;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust the minmax value as needed */
+    gap: 20px; /* Adjust the gap value as needed */
+    justify-content: center; /* Center the grid horizontally */
+    width: 80%; /* Set the width to a specific value or percentage */
+    margin: 0 auto; /* Center the container within its parent */
+}
+
+.grid-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.view-stocks-link {
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    background-color: #4285f4;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.view-stocks-link:hover {
+    background-color: #6297ec;
+}
+
+/* Add styles for the stocks container */
+#stocks-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(1000px, 1fr)); /* Adjust the minmax value as needed */
+    justify-content: center; /* Center the grid horizontally */
+    margin-top: 20px; /* Adjust the top margin as needed */
+    max-width: 80%; /* Set the maximum width to a specific value or percentage */
+    margin: 0 auto; /* Center the container within its parent */
+}
+
+@media (max-width: 800px) {
+    #stocks-container {
+        grid-template-columns: 1fr; /* Display a single column on smaller screens */
+    }
+}

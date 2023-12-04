@@ -5,6 +5,15 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="/">Search</a></li>
+            <li><a href="/stock_exchange">Exchange</a></li>
+            <li><a href="/holder">Holder</a></li>
+            <li><a href="/stock_index">Index</a></li>
+            <li><a href="/analytics">Analytics</a></li>
+        </ul>
+    </nav>
     <div class="center-content">
         <h1>Company Information</h1>
         <div id="result">
@@ -50,7 +59,7 @@
                     </table>
                 </div>
             </div>
-            <h1>News Information</h1>
+            <h1>News</h1>
             <table>
                 <thead>
                     <tr>
